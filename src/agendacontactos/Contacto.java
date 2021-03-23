@@ -15,13 +15,13 @@ public class Contacto {
 	
 	//patromes para validar expresiones regulares
 	
-	final String PATRON_NOMBRE="^[A-Z][\\w\\s\\-&]{1,49}$";
-	final String PATRON_APE="^[A-Z][\\w\\s\\-&]{1,99}$";
-	final String PATRON_TELE="^([679]\\d{8})|(\\+\\d[\\d\\-]{19)$";
+	final String PATRON_NOMBRE="^[A-Z][\\p{IsLatin}\\s\\-&]{1,49}$";
+	final String PATRON_APE="^[A-Z][\\p{IsLatin}\\s\\-&]{1,99}$";
+	final String PATRON_TELE="^([679]\\d{8})|(\\+\\d[\\d\\-]{19})$";
 	
 	//constructor
 	public Contacto (String nom, String ape,  String tele){
-		if (!nombre.matches(PATRON_NOMBRE)) {
+		if (!nom.matches(PATRON_NOMBRE)) {
 			throw new IllegalArgumentException("El nombre no cumple el patrón esperado");
 		}
 		

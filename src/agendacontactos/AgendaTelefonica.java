@@ -78,7 +78,12 @@ public class AgendaTelefonica {
 		System.out.println("\n\t NOMBRE \t\t APELLIDOS \t\t TELEFONO");
 		System.out.println("------------------------------------------------------");
 		
-		for (Contacto persona: this.agenda) {
+		Contacto agendaO [] = new Contacto[agenda.size()];
+		agenda.toArray(agendaO);
+			
+		agendaO = obtenerListaOrdenada();
+		
+		for (Contacto persona: agendaO) {
 		
 			System.out.format("\n\t %s \t\t %s \t\t %s", persona.getNombre() ,
 					persona.getApellidos(),
@@ -172,8 +177,62 @@ public class AgendaTelefonica {
 			
 		}
 		
-		
+		/** 
+         * M�todo para determinar si dados dos contactos, el primero es alfab�ticamente posterior al segundo
+         * @param c1: primer objeto Contacto
+         * @param c2: segundo objeto Contacto
+         * @return: true si el primer contacto es alfab�ticamente mayor al segundo: false en otro caso
+         */
+        private static boolean esMayor (Contacto c1, Contacto c2){
+            
+            boolean resultado=false;
+            
+            if (c1.getApellidos().compareToIgnoreCase(c2.getApellidos())>0){
+                resultado = true;
+            } else if (c1.getApellidos().compareToIgnoreCase(c2.getApellidos())==0){
+                if (c1.getNombre().compareToIgnoreCase(c2.getNombre())>0){
+                    resultado =true;
+                }
+            }
+            //en el resto de casos c1 NO es mayor que c2
+            return resultado;
+        }
 	
+        /**
+         * M�todo para obtener una lista ordenada alfab�ticamente a partir de la lista de contactos
+         * Usa el m�todo toArray() de  la clase ArrayList para obtener un array est�tico con sus elementos
+         * En la ordenaci�n utiliza el m�todo de inserci�n
+         * @return:   array de objetos Contacto ordenados alfab�ticamente
+         */
+        public Contacto[] obtenerListaOrdenada(){
+            
+            Contacto[] listaOrdenada= new Contacto[this.agenda.size()];
+            
+            this.agenda.toArray(listaOrdenada);
+            
+            //ordenamos por el algoritmo de inserci�n
+            
+            Contacto auxiliar;
+            boolean hayhueco;
+            
+            for (int i = 0; i < listaOrdenada.length; i++){
+                        
+                 auxiliar = (Contacto)listaOrdenada[i];
+                 int j = i-1;
+                 hayhueco=false;
+                 
+                 while (j >=0 && !hayhueco){
+                     if (esMayor((Contacto)listaOrdenada[j] ,auxiliar)){
+                         listaOrdenada[j+1] = listaOrdenada[j];
+                         j--;
+                     } else
+                         hayhueco=true;
+                }
+                listaOrdenada[j+1] = auxiliar;
+            } //fin del bucle para
+            
+            return listaOrdenada;
+            
+        } //fin de la ordenación
 	
-
 }
